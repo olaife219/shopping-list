@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" src="assignment.css">
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        .form {
+            width: 70%;
+            height: 350px;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .to {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .to h3 {
+            font-weight: 500;
+            font-size: 30px;
+        }
+
+        input {
+            width: 90%;
+            height: 30px;
+            border: 2px black solid;
+        }
+
+        .to button {
+            justify-content: flex-start;
+            align-self: start;
+            width: 200px;
+            height: 35px;
+            border-radius: 5px;
+            background-color: gray;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            margin-left: 40px;
+        }
+
+        .content2 {
+            background-color: white;
+            width: 70%;
+        }
+        #total{
+            justify-content: flex-end;
+            align-self: self-end;
+            font-size: 15px;
+            font-weight: 500;
+            margin-right: 40px;
+        }
+        .result{
+            width: 100%;
+            /* max-height: fit-content; */
+           
+            border-radius: 10px;
+        }
+        p{
+            border: 1px brown solid;
+            padding: 15px;
+        }
+        #min{
+            width: 90%;
+        }
+        #min{
+            padding: 0.1px;
+        }
+        
+    </style>
+</head>
+<body>
+    <center>
+    <div>
+        <div class="form">
+    <div class="to">
+        <h3 class="pee">Shopping List</h3>
+        <input type="text" placeholder="items" class="screen" id="item"><br>
+        <input type="number" placeholder="price" class="screen" id="price"><br>
+        <input type="number" placeholder="Quantity" class="screen" id="quantity"><br>
+        <div id="total">Total: 0</div> <br>
+        <button onclick="list()">Submit</button>
+    </div><br><br>
+    <div class="result">
+    <div id="you">
+        <div id="min">
+
+        </div>
+    </div>
+    </div>
+    
+</body>
+<script>
+    let arr = []
+    let item = document.getElementById("item")
+    let price = document.getElementById("price")
+    let quantity = document.getElementById("quantity")
+    let output = document.getElementById("min")
+    let totalResult = document.getElementById("total")
+    function list(){
+        let myobj = {
+            item : item.value,
+            price : price.value,
+            quantity : quantity.value,
+        }
+        arr.push(myobj)
+        output.innerHTML = ""
+        for (i = 0; i < arr.length; i++){
+            output.innerHTML += `
+            <p>
+                Item: ${arr[i].item} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Price: ${arr[i].price} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Quantity: ${arr[i].quantity} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Subtotal: ${arr[i].price * arr[i].quantity}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button onclick="edit(${i})" style="width:150px; background-color: darkcyan; height: 30px; border-radius: 5px;">Edit</button>&nbsp;&nbsp;
+                <button onclick="delet(${i})" style="width:150px; background-color: red; height: 30px; border-radius: 5px;">Delete</button>
+            </p>
+            `
+        }
+        let totalanswer = arr.reduce((i, total) => i  + (total.price * total.quantity), 0)
+        totalResult.innerHTML = "Total:" + totalanswer
+    }
+
+    function edit(i){
+        let newitem = prompt("Enter the item name")
+        let newprice = prompt("Enter the item price")
+        let newquantity = prompt("Enter the item quantity")
+        let newObj = {
+            item : newitem,
+            price : newprice,
+            quantity : newquantity
+        }
+        arr.splice(i, 1, newObj)
+        output.innerHTML = ""
+        for (i = 0; i < arr.length; i++){
+            output.innerHTML += `
+            <p>
+                Item: ${arr[i].item} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Price: ${arr[i].price} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Quantity: ${arr[i].quantity} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Subtotal: ${arr[i].price * arr[i].quantity}&nbsp;&nbsp;&nbsp;&nbsp;
+                <button onclick="edit(${i})" style="width:150px; background-color: darkcyan; height: 30px; border-radius: 5px;">Edit</button>&nbsp;&nbsp;
+                <button onclick="delet(${i})" style="width:150px; background-color: red; height: 30px; border-radius: 5px;">Delete</button>
+            </p>
+            `
+        }
+        let totalanswer = arr.reduce((i, total) => i  + (total.price * total.quantity), 0)
+        totalResult.innerHTML = "Total:" + totalanswer
+    }
+    function delet(i) {
+        arr.splice(i, 1);
+        output.innerHTML = "";
+        for (let i = 0; i < arr.length; i++) {
+            output.innerHTML += `
+            <p>
+                Item: ${arr[i].item} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Price: ${arr[i].price} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Quantity: ${arr[i].quantity} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Subtotal: ${arr[i].price * arr[i].quantity}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button onclick="edit(${i})" style="width:150px; background-color: darkcyan; height: 30px; border-radius: 5px;">Edit</button>&nbsp;&nbsp;
+                <button onclick="delet(${i})" style="width:150px; background-color: red; height: 30px; border-radius: 5px;">Delete</button>
+            </p>
+            `;
+        }
+        let totalanswer = arr.reduce((i, total) => i + total.price * total.quantity, 0);
+        totalResult.innerHTML = "Total:" + totalanswer;
+    }
+
+    
+
+</script>
+</html>
